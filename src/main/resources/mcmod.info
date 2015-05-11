@@ -1,0 +1,16 @@
+[
+{
+  "modid": "mobinhibitor",
+  "name": "Mob Inhibitor",
+  "description": "Three blocks to control mob spawns. Hostile, passive and aqua create inhibitors will prevent their associated mobs from spawning in a configurable radius. The blocks can be disguised as any normal, solid block by right clicking the placed inhibitor while holding a block with the desired appearance. Right clicking while sneaking with an empty hand or a compatible wrench type tool will remove the disguise.",
+  "version": "1.7.10-1.0",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["korazail"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
