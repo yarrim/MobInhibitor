@@ -2,6 +2,7 @@ package com.korazail.MobInhibitor.Handlers;
 
 import com.korazail.MobInhibitor.MobInhibitor;
 import com.korazail.MobInhibitor.tile.MobInhibitorReference;
+import com.korazail.MobInhibitor.utility.LogHelper;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.EnumCreatureType;
@@ -53,6 +54,7 @@ public class ServerEventHandler {
         for (MobInhibitorReference Ref : RefList){
             if (TestRange(Ref, event.entity.posX, event.entity.posY, event.entity.posZ)) {
                 event.setResult(Event.Result.DENY);
+                LogHelper.debug("Blocked a spawn based on inhibitor at:"+Ref.i+", "+Ref.j+", "+Ref.k);
                 return;
             }
         }
@@ -64,6 +66,7 @@ public class ServerEventHandler {
         for (MobInhibitorReference Ref : MobInhibitor.HostileInhibitors){
             if (TestRange(Ref, event.targetX, event.targetY, event.targetZ)){
                 event.setCanceled(true);
+                LogHelper.debug("Blocked an Enderman teleport based on inhibitor at:"+Ref.i+", "+Ref.j+", "+Ref.k);
                 break;
             }
         }

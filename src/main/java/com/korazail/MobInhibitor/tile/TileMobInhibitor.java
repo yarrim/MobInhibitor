@@ -48,11 +48,11 @@ public class TileMobInhibitor extends TileEntity {
             MobInhibitorReference Ref = new MobInhibitorReference(this.xCoord, this.yCoord, this.zCoord);
             if (!RefList.contains(Ref)){
                 if (!RefList.add(Ref)){
-                    LogHelper.warn(String.format("Failed to register Inhibitor %s", Ref.toString()));
+                    LogHelper.error(String.format("Failed to register Inhibitor %s", Ref.toString()));
                 }
             }
             else {
-                LogHelper.warn("Inhibitor already registered");
+                LogHelper.warn("Inhibitor at "+Ref.toString()+" already registered");
             }
         }
     }
@@ -68,11 +68,11 @@ public class TileMobInhibitor extends TileEntity {
             MobInhibitorReference Ref = new MobInhibitorReference(this.xCoord, this.yCoord, this.zCoord);
             if (RefList.contains(Ref)){
                 if (!RefList.remove(Ref)){
-                    LogHelper.warn(String.format("Failed to unregister Inhibitor %s", Ref.toString()));
+                    LogHelper.error(String.format("Failed to unregister Inhibitor %s", Ref.toString()));
                 }
             }
             else {
-                LogHelper.warn("Unloaded a non-registered Inhibitor");
+                LogHelper.warn("Unloaded a non-registered Inhibitor at "+Ref.toString());
             }
         }
     }
