@@ -39,13 +39,18 @@ public class TileMobInhibitor extends TileEntity {
 
     private void registerInhibitor(){
         if (!this.worldObj.isRemote) {
+            String type = "";
             List<MobInhibitorReference> RefList;
             switch (this.meta){
-                case 2: RefList = MobInhibitor.AquaInhibitors;break;
-                case 1: RefList = MobInhibitor.PassiveInhibitors;break;
-                case 0: default: RefList = MobInhibitor.HostileInhibitors;break;
+                case 2: RefList = MobInhibitor.AquaInhibitors; type="Aqua";
+                        break;
+                case 1: RefList = MobInhibitor.PassiveInhibitors; type="Passive";
+                        break;
+                case 0: default: RefList = MobInhibitor.HostileInhibitors; type="Hostile";
+                        break;
             }
-            MobInhibitorReference Ref = new MobInhibitorReference(this.xCoord, this.yCoord, this.zCoord);
+            MobInhibitorReference Ref = new MobInhibitorReference(this.xCoord, this.yCoord, this.zCoord, this.worldObj.provider.dimensionId);
+            LogHelper.info(type + " Inhibitor registering at " + Ref.toString() + "; List Length: " + (RefList.size()+1));
             if (!RefList.contains(Ref)){
                 if (!RefList.add(Ref)){
                     LogHelper.error(String.format("Failed to register Inhibitor %s", Ref.toString()));
@@ -59,13 +64,18 @@ public class TileMobInhibitor extends TileEntity {
 
     private void unregisterInhibitor(){
         if (!this.worldObj.isRemote) {
+            String type = "";
             List<MobInhibitorReference> RefList;
             switch (this.meta){
-                case 2: RefList = MobInhibitor.AquaInhibitors;break;
-                case 1: RefList = MobInhibitor.PassiveInhibitors;break;
-                case 0: default: RefList = MobInhibitor.HostileInhibitors;break;
+                case 2: RefList = MobInhibitor.AquaInhibitors; type="Aqua";
+                    break;
+                case 1: RefList = MobInhibitor.PassiveInhibitors; type="Passive";
+                    break;
+                case 0: default: RefList = MobInhibitor.HostileInhibitors; type="Hostile";
+                    break;
             }
-            MobInhibitorReference Ref = new MobInhibitorReference(this.xCoord, this.yCoord, this.zCoord);
+            MobInhibitorReference Ref = new MobInhibitorReference(this.xCoord, this.yCoord, this.zCoord, this.worldObj.provider.dimensionId);
+            LogHelper.info(type + " Inhibitor unregistering at " + Ref.toString() + "; List Length: " + (RefList.size()-1));
             if (RefList.contains(Ref)){
                 if (!RefList.remove(Ref)){
                     LogHelper.error(String.format("Failed to unregister Inhibitor %s", Ref.toString()));
@@ -84,21 +94,19 @@ public class TileMobInhibitor extends TileEntity {
 
     @Override
     public void validate (){
-        //This suffices as an onLoad();
         super.validate();
         this.registerInhibitor();
     }
 
     @Override
     public void invalidate(){
-        //this suffices as an OnUnload();
         super.invalidate();
         this.unregisterInhibitor();
     }
 
     @Override
     public void onChunkUnload(){
-        //this is also an Unload
+        //this is an Unload
         this.unregisterInhibitor();
         super.onChunkUnload();
     }

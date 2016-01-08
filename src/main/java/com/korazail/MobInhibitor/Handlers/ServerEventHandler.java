@@ -14,10 +14,11 @@ import java.util.List;
 
 public class ServerEventHandler {
 
-    private boolean TestRange(MobInhibitorReference ref, double x, double y, double z){
+    private boolean TestRange(MobInhibitorReference ref, double x, double y, double z, int dim){
         //cast (double) coordinates for an entity spawn, which will be in the middle of the block, do an (int) for more accurate range calculation.
         // could have gone the other way and cast everything to (double) and added .5 to each MobInhibitorReference coordinate, but I figured
         // integer math would be slightly faster than double math.
+        if (ref.dim != dim) { return false;} // Ignore any inhibitors in other dimensions
         int i = (int)(x-.5);
         int j = (int)(y-.5);
         int k = (int)(z-.5);
@@ -39,7 +40,7 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void BlockSpawnEvent(LivingSpawnEvent.CheckSpawn event){
         List<MobInhibitorReference> RefList;
-        if (event.getResult() == Event.Result.ALLOW){ return;} // If the event is already forced, let it through
+        if (event.getResult() != Event.Result.DEFAULT){ return;} // If the event is already forced Allow or Deny, let it through
         if (event.entity.isCreatureType(EnumCreatureType.monster,false)){ //decide which list to use.
             RefList = MobInhibitor.HostileInhibitors;
         } else if (event.entity.isCreatureType(EnumCreatureType.waterCreature,false)){
@@ -47,12 +48,12 @@ public class ServerEventHandler {
         } else { // this will also catch ambient creatures like bats.
             if (!ConfigurationHandler.InhibitAmbient && event.entity.isCreatureType(EnumCreatureType.ambient,false)){
                 return; //If the InhibitAmbient config is not set, and the creature type is ambient, don't do anything.
-                //If the config is set, fall through. The remamining category is Creature, which includes passives.
+                //If the config is set, fall through. The remaining category is Creature, which includes passives.
             }
             RefList = MobInhibitor.PassiveInhibitors;
         }
         for (MobInhibitorReference Ref : RefList){
-            if (TestRange(Ref, event.entity.posX, event.entity.posY, event.entity.posZ)) {
+            if (TestRange(Ref, event.entity.posX, event.entity.posY, event.entity.posZ, event.world.provider.dimensionId)) {
                 event.setResult(Event.Result.DENY);
                 LogHelper.debug("Blocked a spawn based on inhibitor at:"+Ref.i+", "+Ref.j+", "+Ref.k);
                 return;
@@ -64,21 +65,12 @@ public class ServerEventHandler {
     public void BlockMobTeleport(EnderTeleportEvent event){
         if (!event.isCancelable()){return;}
         for (MobInhibitorReference Ref : MobInhibitor.HostileInhibitors){
-            if (TestRange(Ref, event.targetX, event.targetY, event.targetZ)){
+            if (TestRange(Ref, event.targetX, event.targetY, event.targetZ, event.entity.worldObj.provider.dimensionId)) {
                 event.setCanceled(true);
                 LogHelper.debug("Blocked an Enderman teleport based on inhibitor at:"+Ref.i+", "+Ref.j+", "+Ref.k);
                 break;
             }
         }
 
-    }
-
-    @SubscribeEvent
-    public void ClearInhibitorsOnWorldUnload(net.minecraftforge.event.world.WorldEvent.Unload event){
-        //Clear the Inhibitors lists when the world is unloaded.
-        //When it is reloaded, the inhibitors will all validate() and add themselves back.
-        MobInhibitor.HostileInhibitors.clear();
-        MobInhibitor.PassiveInhibitors.clear();
-        MobInhibitor.AquaInhibitors.clear();
     }
 }
