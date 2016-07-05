@@ -1,0 +1,10 @@
+{
+  "forge_marker":1,
+  "defaults": {
+    "model":"mobinhibitor:mobinhibitor_hostile"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

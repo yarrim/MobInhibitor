@@ -1,0 +1,12 @@
+gradle
+.gradle
+run
+out
+build
+.git
+MobInhibitor.iml
+MobInhibitor.ipl
+MobInhibitor.iws
+LICENSE
+gradlew
+gradlew.bat

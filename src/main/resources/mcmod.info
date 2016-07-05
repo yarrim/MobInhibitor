@@ -1,0 +1,16 @@
+[
+{
+  "modid": "mobinhibitor",
+  "name": "Mob Inhibitor",
+  "description": "A set of blocks that prevent mob spawning in a configurable way.",
+  "version": "2.0",
+  "mcversion": "1.9.4-12.17.0.1976",
+  "url": "https://github.com/yarrim/MobInhibitor",
+  "updateUrl": "",
+  "authorList": ["Korazail"],
+  "credits": "Prominent modders who put their source and tutorials online so I can learn from their hard labor. CrazyPants, Vazkii, McJty, TheGreyGhost, BedrockMiner, Shadowfacts",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -1,0 +1,11 @@
+{
+  "forge_marker":1,
+  "defaults": {
+    "model":"mobinhibitor:mobinhibitor_hostile"
+  },
+  "variants": {
+    "type=hostile" : {"model":"mobinhibitor:mobinhibitor_hostile"},
+    "type=water" : {"model":"mobinhibitor:mobinhibitor_water"},
+    "type=passive" : {"model":"mobinhibitor:mobinhibitor_passive"}
+  }
+}
