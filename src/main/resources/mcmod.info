@@ -3,7 +3,7 @@
   "modid": "mobinhibitor",
   "name": "Mob Inhibitor",
   "description": "A set of blocks that prevent mob spawning in a configurable way.",
-  "version": "2.0",
+  "version": "2.1",
   "mcversion": "1.9.4-12.17.0.1976",
   "url": "https://github.com/yarrim/MobInhibitor",
   "updateUrl": "",
